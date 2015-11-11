@@ -1,0 +1,11 @@
+FROM golang
+
+COPY . /go/src/github.com/plietar/builder-test
+ENV CGO_ENABLED=0
+ENV GOOS=linux
+RUN go install -a -tags netgo -ldflags '-w' github.com/plietar/builder-test
+
+RUN mkdir /output
+RUN cp /go/bin/builder-test /output
+CMD ["/bin/tar", "-c", "-C", "/output", "."]
+
